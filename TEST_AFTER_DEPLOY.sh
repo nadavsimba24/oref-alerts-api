@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "🔍 בודק דיפלוי של Oref Alerts API..."
+echo "Service: https://oref-alerts-api.onrender.com"
+echo ""
+echo "1. בדיקת health endpoint:"
+curl -s https://oref-alerts-api.onrender.com/health | jq -r '"Status: \(.status)"' 2>/dev/null || echo "❌ Health check failed"
+echo ""
+echo "2. בדיקת alerts endpoint:"
+curl -s https://oref-alerts-api.onnder.com/api/alerts/current | jq -r '"Alert: \(.alert)"' 2>/dev/null || echo "❌ Alerts endpoint failed"
+echo ""
+echo "🎉 אם אתה רואה 'Status: ok' ו-'Alert: true/false' - הדיפלוי הצליח!"

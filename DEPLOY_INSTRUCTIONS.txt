@@ -1,0 +1,13 @@
+🚀 הוראות דיפלוי פשוטות:
+
+1. פתח דפדפן (Chrome, Firefox, etc.)
+2. לחץ על הקישור:
+   https://dashboard.render.com/new/web?repo=https://github.com/nadavsimba24/oref-alerts-api
+3. לחץ על הכפתור הכחול "Create Web Service"
+4. המתן 2-3 דקות
+5. קבל את הכתובת: https://oref-alerts-api.onrender.com
+
+אחרי הדיפלוי, חזור לכאן והרץ:
+./check-deployment.sh
+
+אם יש בעיות, שלח לי הודעה!

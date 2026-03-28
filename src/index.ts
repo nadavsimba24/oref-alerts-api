@@ -85,10 +85,10 @@ wss.on('connection', (ws) => {
   });
 });
 
-// Start server
-server.listen(PORT, () => {
+// Start server - listen on all interfaces for Docker/Render
+server.listen(PORT, '0.0.0.0', () => {
   logger.info(`🚀 Oref Alerts API running on port ${PORT}`);
-  logger.info(`📡 WebSocket available at ws://localhost:${PORT}`);
+  logger.info(`📡 WebSocket available at ws://0.0.0.0:${PORT}`);
 });
 
 // Graceful shutdown
