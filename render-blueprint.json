@@ -1,0 +1,35 @@
+{
+  "name": "oref-alerts-api",
+  "type": "web_service",
+  "repo": "https://github.com/nadavsimba24/oref-alerts-api",
+  "ownerId": "your-owner-id",
+  "serviceDetails": {
+    "env": "node",
+    "region": "oregon",
+    "plan": "starter",
+    "numInstances": 1,
+    "buildCommand": "npm install && npm run build",
+    "startCommand": "npm start",
+    "healthCheckPath": "/health",
+    "autoDeploy": true,
+    "branch": "main",
+    "envVars": [
+      {
+        "key": "NODE_ENV",
+        "value": "production"
+      },
+      {
+        "key": "PORT",
+        "value": "3000"
+      },
+      {
+        "key": "CACHE_TTL_CURRENT",
+        "value": "30"
+      },
+      {
+        "key": "CACHE_TTL_HISTORY",
+        "value": "300"
+      }
+    ]
+  }
+}
