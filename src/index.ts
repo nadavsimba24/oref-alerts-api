@@ -11,7 +11,7 @@ import { Logger } from './utils/logger';
 const app = express();
 const server = createServer(app);
 const wss = new WebSocketServer({ server });
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT || '3000', 10);
 
 // Initialize services
 const logger = new Logger();

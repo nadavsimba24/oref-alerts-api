@@ -15,7 +15,7 @@ const logger_1 = require("./utils/logger");
 const app = (0, express_1.default)();
 const server = (0, http_1.createServer)(app);
 const wss = new ws_1.WebSocketServer({ server });
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT || '3000', 10);
 // Initialize services
 const logger = new logger_1.Logger();
 const cacheService = new cache_service_1.CacheService();
@@ -82,10 +82,10 @@ wss.on('connection', (ws) => {
         logger.info('WebSocket connection closed');
     });
 });
-// Start server
-server.listen(PORT, () => {
+// Start server - listen on all interfaces for Docker/Render
+server.listen(PORT, '0.0.0.0', () => {
     logger.info(`🚀 Oref Alerts API running on port ${PORT}`);
-    logger.info(`📡 WebSocket available at ws://localhost:${PORT}`);
+    logger.info(`📡 WebSocket available at ws://0.0.0.0:${PORT}`);
 });
 // Graceful shutdown
 process.on('SIGTERM', () => {
