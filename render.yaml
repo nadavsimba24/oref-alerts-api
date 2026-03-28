@@ -1,0 +1,23 @@
+# Render.com configuration for Oref Alerts API
+services:
+  - type: web
+    name: oref-alerts-api
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: CACHE_TTL_CURRENT
+        value: 30
+      - key: CACHE_TTL_HISTORY
+        value: 300
+    healthCheckPath: /health
+    autoDeploy: true
+    plan: free
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
