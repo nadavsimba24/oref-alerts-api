@@ -1,0 +1,68 @@
+name: Keep API Alive
+
+on:
+  schedule:
+    # Run every 10 minutes
+    - cron: '*/10 * * * *'
+  # Also run on push to main (optional)
+  push:
+    branches: [ main ]
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Ping Oref Alerts API
+      run: |
+        echo "🔄 Pinging Oref Alerts API..."
+        SERVICE_URL="https://oref-alerts-api.onrender.com"
+        
+        # First ping - health check
+        echo "🔍 Checking health endpoint..."
+        HEALTH_RESPONSE=$(curl -s -m 30 "$SERVICE_URL/health" || echo '{"status":"error"}')
+        echo "Health response: $HEALTH_RESPONSE"
+        
+        # Extract status
+        HEALTH_STATUS=$(echo $HEALTH_RESPONSE | jq -r '.status // "unknown"')
+        
+        if [ "$HEALTH_STATUS" = "ok" ]; then
+          echo "✅ API is alive and healthy"
+        else
+          echo "⚠️ API might be sleeping. Sending wake-up request..."
+          
+          # Try to wake it up with alerts endpoint
+          curl -s -m 60 "$SERVICE_URL/api/alerts/current" > /dev/null || true
+          sleep 5
+          
+          # Check again
+          HEALTH_RESPONSE2=$(curl -s -m 30 "$SERVICE_URL/health" || echo '{"status":"error"}')
+          HEALTH_STATUS2=$(echo $HEALTH_RESPONSE2 | jq -r '.status // "unknown"')
+          
+          if [ "$HEALTH_STATUS2" = "ok" ]; then
+            echo "✅ API woke up successfully!"
+          else
+            echo "❌ API still not responding"
+            # Don't fail the workflow - just log
+          fi
+        fi
+        
+        # Log the ping
+        echo "📊 Ping completed at $(date -u)"
+        echo "🌐 Service URL: $SERVICE_URL"
+        echo "🏥 Health status: $HEALTH_STATUS"
+        
+    - name: Send notification (optional)
+      if: failure()
+      run: |
+        echo "❌ API ping failed!"
+        # Here you could add Slack/Discord/Email notifications
+        # Example with curl to webhook:
+        # curl -X POST -H 'Content-type: application/json' \
+        #   --data '{"text":"Oref API ping failed!"}' \
+        #   ${{ secrets.SLACK_WEBHOOK_URL }}
