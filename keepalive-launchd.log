@@ -1,0 +1,11 @@
+🔄 Keeping https://oref-alerts-api.onrender.com alive...
+🔍 Pinging health endpoint...
+✅ Service is alive and healthy
+
+📊 Service Status:
+   URL: https://oref-alerts-api.onrender.com
+   Health: ok
+   Time: Sat Mar 28 13:04:09 PDT 2026
+
+📈 Logs saved to: keep-alive.log
+🔄 Run this script every 10 minutes to keep the service alive
